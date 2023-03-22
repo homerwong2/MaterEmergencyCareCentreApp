@@ -1,8 +1,63 @@
-﻿@{
-    ViewData["Title"] = "Mater Emergency Care Centre (MECC) Board";
+﻿@model List<BedDtoViewModel>
+
+@{
+    ViewData["Title"] = "Mater Emergency Care Centre (MECC) Board - All Beds";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to the Mater Emergency Care Centre (MECC) Board</h1>
     <p>Below is a list of all eight beds and who are the patients that are in them.</p>
+
 </div>
+
+<h2>All Beds</h2>
+
+<table class="table table-sm table-striped table-bordered m-2">
+    <thead>
+        <tr>
+            <th>Bed</th>
+            <th>Status</th>
+            <th>Patient</th>
+            <th>DOB</th>
+            <th>PresentingIssue</th>
+            <th>LastComment</th>
+            <th>LastUpdate</th>
+            <th>URN</th>
+            <th>Nurse</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.Bed</td>
+                <td>@r.Status</td>
+                <td>@r.Patient</td>
+                <td>@r.DOB</td>
+                <td>@r.PresentingIssue</td>
+                <td>@r.LastComment</td>
+                <td>@r.LastUpdate</td>
+                <td>@r.URN</td>
+                <td>@r.Nurse</td>
+                <td>
+                @if (r.Status == "In use")
+                {
+                    <a asp-action="AddComment" asp-route-id="@r.PatientId/@r.Patient">Add comment</a>
+                    <a asp-action="Discharge" asp-route-id="@r.Bed">Discharge</a>
+                        <form asp-action="Discharge" method="put">                            
+                            <input type="hidden" value="@r.Bed" name="bedId" />
+                        </form>
+                }
+                else
+                {
+                    <a asp-action="AdmitPatient" asp-route-id="@r.Bed">AdmitPatient</a>
+                        <form asp-action="AdmitPatient" method="put">                            
+                            <input type="hidden" value="@r.Bed" name="bedId" />
+                        </form>
+                }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

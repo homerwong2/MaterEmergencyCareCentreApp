@@ -141,9 +141,6 @@ namespace MaterEmergencyCareCentreApp.DataAccess
 
         public Patient? GetPatient(int? patientId)
         {
-            if (patientId == null)
-                return null;
-
             var patient = _context.Patients
                 .Include(p => p.Comments)
                 .Where(p => p.Id == patientId)
@@ -175,6 +172,17 @@ namespace MaterEmergencyCareCentreApp.DataAccess
 
             return patients;
         }
+
+        public List<Comment> GetComments(int patientId)
+        {
+            var patient = _context.Patients
+                .Include(p => p.Comments)
+                .Where(p => p.Id == patientId)
+                .FirstOrDefault();
+
+            return patient == null ? new List<Comment>() : patient.Comments;
+        }
+
 
         public bool AddComment(int patientId, DateTime commentTime, string text, string nurse)
         {            

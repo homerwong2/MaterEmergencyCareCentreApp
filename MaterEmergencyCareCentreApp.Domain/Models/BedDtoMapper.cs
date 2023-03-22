@@ -15,6 +15,7 @@ namespace MaterEmergencyCareCentreApp.Domain.Models
             {
                 Bed = bed.Id,
                 Status = bed.Status,
+                PatientId = patient?.Id,
                 Patient = patient?.Name,
                 DOB = patient?.DOB.ToString("dd-MM-yyyy"),
                 PresentingIssue = patient?.PresentingIssue,

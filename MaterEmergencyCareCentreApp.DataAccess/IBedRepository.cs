@@ -10,7 +10,7 @@ namespace MaterEmergencyCareCentreApp.DataAccess
         public int CountTotalPatientsAdmittedToday();
         public List<Patient> GetPatients();
         public List<Patient> GetAdmittedPatientsUsingABed();
-
+        public List<Comment> GetComments(int patientId);
         public bool AddComment(int patientId, DateTime commentTime, string text, string nurse);
         public bool AdmitPatient(Patient patient, int bedId);
         public bool DischargePatient(int patientId);

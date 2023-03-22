@@ -51,6 +51,12 @@ namespace MaterEmergencyCareCentreApp.API.Controllers
             return Ok(_bedRepository.GetAdmittedPatientsUsingABed());
         }
 
+        [HttpGet("GetComments")]
+        public ActionResult<IEnumerable<Comment>> GetComments(int patientId)
+        {
+            return Ok(_bedRepository.GetComments(patientId));
+        }
+
         [HttpPost("AddComment")]
         public ActionResult<int> AddComment(int patientId, DateTime commentTime, string text, string nurse)
         {

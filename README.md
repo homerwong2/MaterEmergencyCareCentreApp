@@ -1,22 +1,22 @@
-# MaterEmergencyCareCentreApp
+MaterEmergencyCareCentreApp
 
-#Assumptions#
+Assumptions
 
-	• A persistent database was not required
-	• Comments automatically generated upon admission and discharge.
-	• When adding comments, need to know which patient one is adding comments for.
-	• When admitting patients, need to know which bed number.
-	• When discharging patients, need to know which patient.
-	• No error handling on API calls yet
+	â€¢ A persistent database was not required
+	â€¢ Comments automatically generated upon admission and discharge.
+	â€¢ When adding comments, need to know which patient one is adding comments for.
+	â€¢ When admitting patients, need to know which bed number.
+	â€¢ When discharging patients, need to know which patient.
+	â€¢ No error handling on API calls yet
 
-#Structure#
+Structure
 
 MaterEmergencyCareCentreApp - Web App written in ASP.NET 6.0 Core 
 MaterEmergencyCareCentreApp.API - RESTful API written in ASP.NET 6.0 Core Web API with Open API support
 MaterEmergencyCareCentreApp.DataAccess - In memory database db context and repo class library
 MaterEmergencyCareCentreApp.Domain - Model entities and DTOs
 
-#Installation and testing#
+Installation and testing
 
 Publish MaterEmergencyCareCentreApp.API to IIS C:\inetpub\wwwroot\API
 Publish MaterEmergencyCareCentreApp to IIS C:\inetpub\wwwroot\WebApp
@@ -29,9 +29,6 @@ base URL
   }
 ```
 
-Run the API.
-
-
-Run the Web App.
+Run the API on a different port to the Web App.
 
 

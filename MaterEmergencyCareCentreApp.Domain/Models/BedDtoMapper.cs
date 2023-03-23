@@ -17,10 +17,10 @@ namespace MaterEmergencyCareCentreApp.Domain.Models
                 Status = bed.Status,
                 PatientId = patient?.Id,
                 Patient = patient?.Name,
-                DOB = patient?.DOB.ToString("dd-MM-yyyy"),
+                DOB = patient?.DOB.ToString("dd-MMM-yyyy"),
                 PresentingIssue = patient?.PresentingIssue,
                 LastComment = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().Text,
-                LastUpdate = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().CommentTime.ToString("dd-MM-yyyy HH:mm:ss "),
+                LastUpdate = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().CommentTime.ToString("dd-MMM-yyyy HH:mm:ss "),
                 URN = patient?.URN,
                 Nurse = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().Nurse,
                 Action = ""

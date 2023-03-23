@@ -1,4 +1,4 @@
-﻿@model List<BedDtoViewModel>
+﻿@model MaterEmergencyCareCentreApp.Models.SummaryViewModel
 
 @{
     ViewData["Title"] = "Mater Emergency Care Centre Board - Summary information";
@@ -27,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var r in Model)
+        @foreach (var r in Model.Beds)
         {
             <tr>
                 <td>@r.Bed</td>
@@ -53,3 +53,7 @@
         }
     </tbody>
 </table>
+
+<partial name="/Views/Shared/_Counts.cshtml" />
+<partial name="/Views/Shared/_PatientDetailedInformation.cshtml" />
+

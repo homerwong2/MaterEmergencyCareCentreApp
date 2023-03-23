@@ -15,6 +15,7 @@ using System.Web;
 using MaterEmergencyCareCentreApp.Domain.Models;
 using System.Security.Policy;
 using System.Text;
+using System.Net.Http;
 
 namespace MaterEmergencyCareCentreApp.Controllers
 {
@@ -31,17 +32,89 @@ namespace MaterEmergencyCareCentreApp.Controllers
 
         // For example: https://localhost:7281/
         public async Task<IActionResult> Index()
+        { 
+            SummaryViewModel summary = new SummaryViewModel()
+            {
+                Beds = await GetBedsAsync(),
+                CountOfBedsInUse = await CountBedsInUseAsync(),
+                CountOfBedsFree = await CountBedsFreeAsync(),
+                CountTotalPatientsAdmittedToday = await CountTotalPatientsAdmittedTodayAsync(),
+                AdmittedPatientsUsingABed = await GetAdmittedPatientsUsingABedAsync()
+            };
+
+            return View(summary);
+        }
+
+        public async Task<List<BedDtoViewModel>> GetBedsAsync()
         {
             List<BedDtoViewModel> beds = new List<BedDtoViewModel>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:7058/Bed/GetBeds"))
+                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/GetBeds"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     beds = JsonConvert.DeserializeObject<List<BedDtoViewModel>>(apiResponse);
                 }
             }
-            return View(beds);
+
+            return beds;
+        }
+
+        public async Task<int> CountBedsInUseAsync()
+        {
+            int countOfBedsInUse = 0;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountBedsInUse"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    countOfBedsInUse = JsonConvert.DeserializeObject<int>(apiResponse);
+                }
+            }
+            return countOfBedsInUse;
+        }
+
+        public async Task<int> CountBedsFreeAsync()
+        {
+            int countOfBedsFree = 0;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountBedsFree"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    countOfBedsFree = JsonConvert.DeserializeObject<int>(apiResponse);
+                }
+            }
+            return countOfBedsFree;
+        }
+
+        public async Task<int> CountTotalPatientsAdmittedTodayAsync()
+        {
+            int countOfTotalPatientsAdmittedToday = 0;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountTotalPatientsAdmittedToday"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    countOfTotalPatientsAdmittedToday = JsonConvert.DeserializeObject<int>(apiResponse);
+                }
+            }
+            return countOfTotalPatientsAdmittedToday;
+        }
+
+        public async Task<List<Patient>> GetAdmittedPatientsUsingABedAsync()
+        {
+            List<Patient> patients = new List<Patient>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/GetAdmittedPatientsUsingABed"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    patients = JsonConvert.DeserializeObject<List<Patient>>(apiResponse);
+                }
+            }
+
+            return patients;
         }
 
         // For example: https://localhost:7281/Home/AddComment/1%2FJohn Doe
@@ -72,7 +145,7 @@ namespace MaterEmergencyCareCentreApp.Controllers
 
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.PostAsync("https://localhost:7058/Bed/AddComment", stringContent))
+                    using (var response = await httpClient.PostAsync(_options.Value.BaseURL + "/Bed/AddComment", stringContent))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<bool>(apiResponse);
@@ -115,7 +188,7 @@ namespace MaterEmergencyCareCentreApp.Controllers
 
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.PostAsync("https://localhost:7058/Bed/AdmitPatient", stringContent))
+                    using (var response = await httpClient.PostAsync(_options.Value.BaseURL + "/Bed/AdmitPatient", stringContent))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<bool>(apiResponse);
@@ -159,7 +232,7 @@ namespace MaterEmergencyCareCentreApp.Controllers
 
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.PostAsync("https://localhost:7058/Bed/DischargePatient", stringContent))
+                    using (var response = await httpClient.PostAsync(_options.Value.BaseURL + "/Bed/DischargePatient", stringContent))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<bool>(apiResponse);

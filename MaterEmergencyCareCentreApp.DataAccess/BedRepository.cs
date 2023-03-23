@@ -81,7 +81,11 @@ namespace MaterEmergencyCareCentreApp.DataAccess
 
             var patients = _context.Patients
                 .Where(p => patientIds.Contains(p.Id))
+                .Include(p => p.Comments)
                 .ToList();
+
+            patients
+                .ForEach(p => p.Comments = p.Comments.OrderBy(c => c.CommentTime).ToList());
 
             return patients;
         }

@@ -11,8 +11,8 @@ namespace MaterEmergencyCareCentreApp.DataAccess
         public List<Patient> GetPatients();
         public List<Patient> GetAdmittedPatientsUsingABed();
         public List<Comment> GetComments(int patientId);
-        public bool AddComment(int patientId, DateTime commentTime, string text, string nurse);
-        public bool AdmitPatient(Patient patient, int bedId);
-        public bool DischargePatient(int patientId);
+        public bool AddComment(CommentDto commentDto);
+        public bool AdmitPatient(PatientDto patientDto);
+        public bool DischargePatient(DischargeDto dischargeDto);
     }
 }

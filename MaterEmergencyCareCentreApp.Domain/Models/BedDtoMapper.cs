@@ -20,7 +20,7 @@ namespace MaterEmergencyCareCentreApp.Domain.Models
                 DOB = patient?.DOB.ToString("dd-MM-yyyy"),
                 PresentingIssue = patient?.PresentingIssue,
                 LastComment = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().Text,
-                LastUpdate = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().CommentTime.ToString("dd-MM-yyyy HH:mi:ss"),
+                LastUpdate = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().CommentTime.ToString("dd-MM-yyyy HH:mm:ss "),
                 URN = patient?.URN,
                 Nurse = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().Nurse,
                 Action = ""

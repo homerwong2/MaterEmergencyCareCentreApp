@@ -12,6 +12,5 @@ namespace MaterEmergencyCareCentreApp.Domain.Models
         public DateTime CommentTime { get; set; }
         public string Text { get; set; }
         public string Nurse { get; set; }
-
     }
 }

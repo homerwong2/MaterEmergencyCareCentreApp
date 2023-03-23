@@ -58,21 +58,21 @@ namespace MaterEmergencyCareCentreApp.API.Controllers
         }
 
         [HttpPost("AddComment")]
-        public ActionResult<int> AddComment(int patientId, DateTime commentTime, string text, string nurse)
+        public ActionResult<bool> AddComment(CommentDto commentDto)
         {
-            return Ok(_bedRepository.AddComment(patientId, commentTime, text, nurse));
+            return Ok(_bedRepository.AddComment(commentDto));
         }
 
-        [HttpPut("AdmitPatient")]
-        public ActionResult<int> AdmitPatient(Patient patient, int bedId)
+        [HttpPost("AdmitPatient")]
+        public ActionResult<bool> AdmitPatient(PatientDto patientDto)
         {
-            return Ok(_bedRepository.AdmitPatient(patient, bedId));
+            return Ok(_bedRepository.AdmitPatient(patientDto));
         }
 
-        [HttpPut("DischargePatient")]
-        public ActionResult<int> DischargePatient(int patientId)
+        [HttpPost("DischargePatient")]
+        public ActionResult<bool> DischargePatient(DischargeDto dischargeDto)
         {
-            return Ok(_bedRepository.DischargePatient(patientId));
+            return Ok(_bedRepository.DischargePatient(dischargeDto));
         }
     }
 }

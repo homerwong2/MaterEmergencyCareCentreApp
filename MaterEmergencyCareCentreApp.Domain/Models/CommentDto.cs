@@ -1,11 +1,9 @@
-﻿namespace MaterEmergencyCareCentreApp.Models
+﻿namespace MaterEmergencyCareCentreApp.Domain.Models
 {
-    public class CommentDtoViewModel
+    public class CommentDto
     {
-        public CommentDtoViewModel(int patientId, string? patient)
+        public CommentDto()
         {
-            PatientId = patientId;
-            Patient = patient;
         }
 
         public int PatientId { get; set; }

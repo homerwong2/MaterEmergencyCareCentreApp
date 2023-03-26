@@ -1,5 +1,11 @@
 # MaterEmergencyCareCentreApp
 
+![mater](https://user-images.githubusercontent.com/49592449/227806568-987797ef-41d7-4df7-948c-0f7b751b0e56.gif)
+
+![materdetailed](https://user-images.githubusercontent.com/49592449/227806644-a62b1288-079b-407a-875d-47da9c689edf.gif)
+
+![materapi](https://user-images.githubusercontent.com/49592449/227806653-6b22a36d-02b8-4822-a0e4-c7f566088a6a.gif)
+
 # Assumptions
 
 * A persistent database was not required

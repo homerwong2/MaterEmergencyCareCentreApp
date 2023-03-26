@@ -1,6 +1,6 @@
-#MaterEmergencyCareCentreApp
+# MaterEmergencyCareCentreApp
 
-#Assumptions
+# Assumptions
 
 * A persistent database was not required
 * Comments automatically generated upon admission and discharge.
@@ -9,22 +9,22 @@
 * When discharging patients, need to know which patient.
 * No error handling on API calls yet
 
-#Structure
+# Structure
 
 * MaterEmergencyCareCentreApp - Web App written in ASP.NET 6.0 Core 
 * MaterEmergencyCareCentreApp.API - RESTful API written in ASP.NET 6.0 Core Web API with Open API support
 * MaterEmergencyCareCentreApp.DataAccess - In memory database db context and repo class library
 * MaterEmergencyCareCentreApp.Domain - Model entities and DTOs
 
-#Installation and testing
+# Installation and testing
 
-#IIS Configuration
+# IIS Configuration
 
 1. Assuming Windows 10 and IIS 10, go to Turn Windows features on or off
 2. Under Internet Information Services, ensure all Application Development Features and Common HTTP Features are turned on, click OK.
 3. Ensure .NET 6.0 Hosting Bundle is installed from https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-6.0.15-windows-hosting-bundle-installer
 
-#Create API website
+# Create API website
 
 3. Start inetmgr
 4. Right mouse click on server, select Add Website..
@@ -34,7 +34,7 @@
 8. Set Site Binding Port = 8080, hostname = localhost
 9. Select Application Pools > API > Advanced Settings... > Enable 32-Bit Applications > True
 
-#Create WebApp website
+# Create WebApp website
 
 10. Right mouse click on server, select Add Website..
 11. Set Site name: WebApp

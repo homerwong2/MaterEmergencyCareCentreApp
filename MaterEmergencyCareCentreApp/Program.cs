@@ -3,6 +3,10 @@ using MaterEmergencyCareCentreApp.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Register IHttpClientFactory
+builder.Services.AddHttpClient();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.Configure<APIOptions>(builder.Configuration.GetSection(APIOptions.API));

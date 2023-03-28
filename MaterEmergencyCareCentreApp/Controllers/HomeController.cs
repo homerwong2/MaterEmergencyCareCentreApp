@@ -23,11 +23,20 @@ namespace MaterEmergencyCareCentreApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IOptions<APIOptions> _options;
+        private readonly HttpClient _httpClient;
 
-        public HomeController(ILogger<HomeController> logger, IOptions<APIOptions> options)
+        public HomeController(
+                ILogger<HomeController> logger, 
+                IOptions<APIOptions> options, 
+                IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _options = options;
+
+            // HttpClient is intended to be instantiated once and reused throughout the life of an application.
+            // Instantiating an HttpClient class for every request will exhaust available sockets.  
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-6.0
+            _httpClient = httpClientFactory.CreateClient(); ;
         }
 
         // For example: https://localhost:7281/
@@ -48,13 +57,10 @@ namespace MaterEmergencyCareCentreApp.Controllers
         public async Task<List<BedDtoViewModel>> GetBedsAsync()
         {
             List<BedDtoViewModel> beds = new List<BedDtoViewModel>();
-            using (var httpClient = new HttpClient())
+            using (var response = await _httpClient.GetAsync(_options.Value.BaseURL + "/Bed/GetBeds"))
             {
-                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/GetBeds"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    beds = JsonConvert.DeserializeObject<List<BedDtoViewModel>>(apiResponse);
-                }
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                beds = JsonConvert.DeserializeObject<List<BedDtoViewModel>>(apiResponse);
             }
 
             return beds;
@@ -63,13 +69,10 @@ namespace MaterEmergencyCareCentreApp.Controllers
         public async Task<int> CountBedsInUseAsync()
         {
             int countOfBedsInUse = 0;
-            using (var httpClient = new HttpClient())
+            using (var response = await _httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountBedsInUse"))
             {
-                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountBedsInUse"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    countOfBedsInUse = JsonConvert.DeserializeObject<int>(apiResponse);
-                }
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                countOfBedsInUse = JsonConvert.DeserializeObject<int>(apiResponse);
             }
             return countOfBedsInUse;
         }
@@ -77,13 +80,10 @@ namespace MaterEmergencyCareCentreApp.Controllers
         public async Task<int> CountBedsFreeAsync()
         {
             int countOfBedsFree = 0;
-            using (var httpClient = new HttpClient())
+            using (var response = await _httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountBedsFree"))
             {
-                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountBedsFree"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    countOfBedsFree = JsonConvert.DeserializeObject<int>(apiResponse);
-                }
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                countOfBedsFree = JsonConvert.DeserializeObject<int>(apiResponse);
             }
             return countOfBedsFree;
         }
@@ -91,13 +91,10 @@ namespace MaterEmergencyCareCentreApp.Controllers
         public async Task<int> CountTotalPatientsAdmittedTodayAsync()
         {
             int countOfTotalPatientsAdmittedToday = 0;
-            using (var httpClient = new HttpClient())
+            using (var response = await _httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountTotalPatientsAdmittedToday"))
             {
-                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/CountTotalPatientsAdmittedToday"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    countOfTotalPatientsAdmittedToday = JsonConvert.DeserializeObject<int>(apiResponse);
-                }
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                countOfTotalPatientsAdmittedToday = JsonConvert.DeserializeObject<int>(apiResponse);
             }
             return countOfTotalPatientsAdmittedToday;
         }
@@ -105,13 +102,10 @@ namespace MaterEmergencyCareCentreApp.Controllers
         public async Task<List<Patient>> GetAdmittedPatientsUsingABedAsync()
         {
             List<Patient> patients = new List<Patient>();
-            using (var httpClient = new HttpClient())
+            using (var response = await _httpClient.GetAsync(_options.Value.BaseURL + "/Bed/GetAdmittedPatientsUsingABed"))
             {
-                using (var response = await httpClient.GetAsync(_options.Value.BaseURL + "/Bed/GetAdmittedPatientsUsingABed"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    patients = JsonConvert.DeserializeObject<List<Patient>>(apiResponse);
-                }
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                patients = JsonConvert.DeserializeObject<List<Patient>>(apiResponse);
             }
 
             return patients;
@@ -143,13 +137,10 @@ namespace MaterEmergencyCareCentreApp.Controllers
                 var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
                 bool result;
 
-                using (var httpClient = new HttpClient())
+                using (var response = await _httpClient.PostAsync(_options.Value.BaseURL + "/Bed/AddComment", stringContent))
                 {
-                    using (var response = await httpClient.PostAsync(_options.Value.BaseURL + "/Bed/AddComment", stringContent))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        result = JsonConvert.DeserializeObject<bool>(apiResponse);
-                    }
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<bool>(apiResponse);
                 }
             }
 
@@ -186,13 +177,10 @@ namespace MaterEmergencyCareCentreApp.Controllers
                 var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json"); 
                 bool result;
 
-                using (var httpClient = new HttpClient())
+                using (var response = await _httpClient.PostAsync(_options.Value.BaseURL + "/Bed/AdmitPatient", stringContent))
                 {
-                    using (var response = await httpClient.PostAsync(_options.Value.BaseURL + "/Bed/AdmitPatient", stringContent))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        result = JsonConvert.DeserializeObject<bool>(apiResponse);
-                    }
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<bool>(apiResponse);
                 }
             }
 
@@ -230,13 +218,10 @@ namespace MaterEmergencyCareCentreApp.Controllers
                 var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
                 bool result;
 
-                using (var httpClient = new HttpClient())
+                using (var response = await _httpClient.PostAsync(_options.Value.BaseURL + "/Bed/DischargePatient", stringContent))
                 {
-                    using (var response = await httpClient.PostAsync(_options.Value.BaseURL + "/Bed/DischargePatient", stringContent))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        result = JsonConvert.DeserializeObject<bool>(apiResponse);
-                    }
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<bool>(apiResponse);
                 }
             }
 

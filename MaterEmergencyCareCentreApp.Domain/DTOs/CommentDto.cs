@@ -1,4 +1,4 @@
-﻿namespace MaterEmergencyCareCentreApp.Domain.Models
+﻿namespace MaterEmergencyCareCentreApp.Domain.DTOs
 {
     public class CommentDto
     {

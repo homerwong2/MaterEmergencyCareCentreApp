@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MaterEmergencyCareCentreApp.Domain.Models;
 using MaterEmergencyCareCentreApp.DataAccess;
+using MaterEmergencyCareCentreApp.Domain.DTOs;
 
 namespace MaterEmergencyCareCentreApp.API.Controllers
 {

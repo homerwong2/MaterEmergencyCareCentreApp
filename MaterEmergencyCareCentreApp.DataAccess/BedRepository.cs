@@ -1,4 +1,7 @@
-﻿using MaterEmergencyCareCentreApp.Domain.Models;
+﻿using MaterEmergencyCareCentreApp.Domain.DTOs;
+using MaterEmergencyCareCentreApp.Domain.Enums;
+using MaterEmergencyCareCentreApp.Domain.Mappers;
+using MaterEmergencyCareCentreApp.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,12 +33,12 @@ namespace MaterEmergencyCareCentreApp.DataAccess
 
         public int CountBedsInUse()
         {
-            var count = _context.Beds.Where(b => b.Status == "In use").Count();
+            var count = _context.Beds.Where(b => b.Status.ToStatus() == "In use").Count();
             return count;
         }
         public int CountBedsFree()
         {
-            var count = _context.Beds.Where(b => b.Status == "Free").Count();
+            var count = _context.Beds.Where(b => b.Status.ToStatus() == "Free").Count();
             return count;
         }
 
@@ -75,7 +78,7 @@ namespace MaterEmergencyCareCentreApp.DataAccess
         public List<Patient> GetAdmittedPatientsUsingABed()
         {
             var patientIds = _context.Beds
-                .Where(b => b.Status == "In use")
+                .Where(b => b.Status.ToStatus() == "In use")
                 .Select(b => b.PatientId)
                 .ToList();
 
@@ -123,12 +126,12 @@ namespace MaterEmergencyCareCentreApp.DataAccess
             if (bed is null)
                 return false;   // bed not found
 
-            if (bed.Status == "In use")
+            if (bed.Status.ToStatus() == "In use")
                 return false;   // need to discharge patient first
 
             var patientId = GetNextPatientId();
             bed.PatientId = patientId;
-            bed.Status = "In use";
+            bed.Status = StatusType.InUse;
             patient.Id = patientId;
 
             _context.Patients.Add(patient);
@@ -157,7 +160,7 @@ namespace MaterEmergencyCareCentreApp.DataAccess
             var bed = GetBed((int)patient.BedId);
             if (bed is null)
                 return false;   // no bed to discharge patient from
-            bed.Status = "Free";
+            bed.Status = StatusType.Free;
             bed.PatientId = null;
             patient.BedId = null;
 
@@ -206,14 +209,14 @@ namespace MaterEmergencyCareCentreApp.DataAccess
             {
                 var beds = new List<Bed>
                     {
-                    new Bed{Id=1,Status="In use",PatientId=1},
-                    new Bed{Id=2,Status="Free",PatientId=null},
-                    new Bed{Id=3,Status="Free",PatientId=null},
-                    new Bed{Id=4,Status="Free",PatientId=null},
-                    new Bed{Id=5,Status="In use",PatientId=2},
-                    new Bed{Id=6,Status="In use",PatientId=3},
-                    new Bed{Id=7,Status="Free",PatientId=null},
-                    new Bed{Id=8,Status="Free",PatientId=null}
+                    new Bed{Id=1,Status=StatusType.InUse,PatientId=1},
+                    new Bed{Id=2,Status=StatusType.Free,PatientId=null},
+                    new Bed{Id=3,Status=StatusType.Free,PatientId=null},
+                    new Bed{Id=4,Status=StatusType.Free,PatientId=null},
+                    new Bed{Id=5,Status=StatusType.InUse,PatientId=2},
+                    new Bed{Id=6,Status=StatusType.InUse,PatientId=3},
+                    new Bed{Id=7,Status=StatusType.Free,PatientId=null},
+                    new Bed{Id=8,Status=StatusType.Free,PatientId=null}
                     };
                 _context.Beds.AddRange(beds);
                 _context.SaveChanges();

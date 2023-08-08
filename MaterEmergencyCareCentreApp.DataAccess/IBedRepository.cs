@@ -1,4 +1,5 @@
-﻿using MaterEmergencyCareCentreApp.Domain.Models;
+﻿using MaterEmergencyCareCentreApp.Domain.DTOs;
+using MaterEmergencyCareCentreApp.Domain.Models;
 
 namespace MaterEmergencyCareCentreApp.DataAccess
 {

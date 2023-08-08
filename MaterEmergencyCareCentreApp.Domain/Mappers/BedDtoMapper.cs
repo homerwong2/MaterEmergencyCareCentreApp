@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using MaterEmergencyCareCentreApp.Domain.Models;
+using MaterEmergencyCareCentreApp.Domain.DTOs;
+using MaterEmergencyCareCentreApp.Domain.Enums;
 
-namespace MaterEmergencyCareCentreApp.Domain.Models
+namespace MaterEmergencyCareCentreApp.Domain.Mappers
 {
     public class BedDtoMapper
     {
@@ -14,17 +17,18 @@ namespace MaterEmergencyCareCentreApp.Domain.Models
             return new BedDto()
             {
                 Bed = bed.Id,
-                Status = bed.Status,
+                Status = bed.Status.ToStatus(),
                 PatientId = patient?.Id,
                 Patient = patient?.Name,
                 DOB = patient?.DOB.ToString("dd-MMM-yyyy"),
                 PresentingIssue = patient?.PresentingIssue,
-                LastComment = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().Text,
-                LastUpdate = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().CommentTime.ToString("dd-MMM-yyyy HH:mm:ss "),
+                LastComment = patient?.Comments.OrderBy(c => c.CommentTime).Last().Text,
+                LastUpdate = patient?.Comments.OrderBy(c => c.CommentTime).Last().CommentTime.ToString("dd-MMM-yyyy HH:mm:ss "),
                 URN = patient?.URN,
-                Nurse = patient?.Comments.OrderBy(c => c.CommentTime).Last<Comment>().Nurse,
+                Nurse = patient?.Comments.OrderBy(c => c.CommentTime).Last().Nurse,
                 Action = ""
             };
         }
     }
 }
+
